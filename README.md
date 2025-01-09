@@ -15,10 +15,18 @@ Recommended
 
 ## Setup
 
+Clone the repo
+
+1. Create a folder somewhere on your computer, e.g. ai-tutorial-py
+2. Open the Terminal app (or console on Windows) and use the cd command
+to navigate to the folder you created
+3. git clone https://github.com/bowdoincollege/ai-tutorial-py.git
+
 Managing dependencies in Python
 
+Make sure you are in the ai-tutorial-py directory in the Terminal app.
+
 ```sh
-cd Getting_Started
 
 python3 -m venv venv
 
