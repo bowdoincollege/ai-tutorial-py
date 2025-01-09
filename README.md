@@ -1,7 +1,5 @@
 # Generative AI: Getting Started
 
-For this tutorial, we'll be using Open AI models and Meta Llama
-
 Pre-requisites
 
 * A computer
