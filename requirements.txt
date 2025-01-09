@@ -1,0 +1,11 @@
+python-dotenv
+openai
+rich
+tiktoken
+langchain
+langgraph
+langchain-community
+langchain-openai
+beautifulsoup4
+requests
+pypdf
