@@ -78,6 +78,12 @@ Getting started with OpenAI vision capabilities.
 
 [lesson-1-6.py](lesson-1-6.py)
 
+## Lesson 2: Running local LLMs with Ollama
+
+This sample code shows you how to run an llm locally with Ollama, e.g. llama 3.2, etc. These
+take up a lot of hard drive space and can be slower than using the commercial APIs, but
+it's free!
+
 ## References
 
 * https://realpython.com/python-rich-package/
