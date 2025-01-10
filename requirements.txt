@@ -10,3 +10,5 @@ langchain-ollama
 beautifulsoup4
 requests
 pypdf
+ollama
+pillow
