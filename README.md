@@ -8,6 +8,8 @@ Pre-requisites
 * Pip3 (usually included with Python install)
 * Git
 * Clone this repository
+* (Optional) Install Ollama to run Llama and some other models locally: https://ollama.com/
+    1. In Terminal: ollama pull llama3.2
 
 Recommended
 
@@ -75,3 +77,5 @@ from an external source from the LLM training data.
 * https://realpython.com/python-rich-package/
 * https://platform.openai.com/docs/quickstart?language-preference=python&quickstart-example=completions
 * https://python.langchain.com/docs/tutorials/summarization/#map-reduce
+* https://github.com/ollama/ollama/blob/main/README.md#quickstart
+* https://python.langchain.com/docs/integrations/llms/ollama/

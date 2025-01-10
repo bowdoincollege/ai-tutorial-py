@@ -6,6 +6,7 @@ langchain
 langgraph
 langchain-community
 langchain-openai
+langchain-ollama
 beautifulsoup4
 requests
 pypdf
