@@ -39,12 +39,12 @@ while True:
         {"role": "system", "content": """You are a helpful assistant. 
          Respond in markdown syntax and stylize the text. """},
         {"role": "user", "content": [
-                {"type": "text", "text": "Use this image to answer the following questions."},
-                {
-                    "type": "image_url", 
-                    "image_url": {"url": f"data:image/jpeg;base64,{image_base64})"}
-                }
-            ]}
+            {"type": "text", "text": "Use this image to answer the following questions."},
+            {
+                "type": "image_url", 
+                "image_url": {"url": f"data:image/jpeg;base64,{image_base64})"}
+            }
+        ]}
     ] + chat_history
 
     completion = client.chat.completions.create(

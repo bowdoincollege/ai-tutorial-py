@@ -12,3 +12,4 @@ requests
 pypdf
 ollama
 pillow
+flask

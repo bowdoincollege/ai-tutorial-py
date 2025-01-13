@@ -18,7 +18,7 @@ from langchain_text_splitters import TokenTextSplitter
 # This is a website with pdfs of Congressional legislation that will be reviewed for the current week
 START_URL = "https://docs.house.gov/floor/"
 
-MODEL = "gpt-4o" # using gpt-40-mini would be faster, but less accurate, especially for this refinement scenario
+MODEL = "gpt-4o" # using gpt-4o-mini would be faster, but less accurate, especially for this refinement scenario
 
 TOKEN_MAX = 60000 # Open AI context window is 128000 tokens, set to half to leave room for additional context
 

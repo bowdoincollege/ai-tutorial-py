@@ -10,6 +10,7 @@ Pre-requisites
 * Clone this repository
 * (Optional) Install Ollama to run Llama and some other models locally: https://ollama.com/
     1. In Terminal: ollama pull llama3.2
+    2. For vision capabilities: ollama pull llama3.2-vision
 
 Recommended
 
@@ -78,6 +79,12 @@ Getting started with OpenAI vision capabilities.
 
 [lesson-1-6.py](lesson-1-6.py)
 
+## Lesson 1.6: Generated HTML
+
+Creating a dynamic web application
+
+[lesson-1-7.py](lesson-1-7.py)
+
 ## Lesson 2: Running local LLMs with Ollama
 
 This sample code shows you how to run an llm locally with Ollama, e.g. llama 3.2, etc. These
@@ -91,3 +98,4 @@ it's free!
 * https://python.langchain.com/docs/tutorials/summarization/#map-reduce
 * https://github.com/ollama/ollama/blob/main/README.md#quickstart
 * https://python.langchain.com/docs/integrations/llms/ollama/
+* https://github.com/openai/openai-python
