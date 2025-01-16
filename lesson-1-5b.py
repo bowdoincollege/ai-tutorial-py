@@ -1,4 +1,4 @@
-# Lesson 1.5: Text summarization with OpenAI Chat API
+# Lesson 1.5b: Text summarization with OpenAI Chat API
 
 # the Langchain library includes a ChatOpenAI class that wraps the OpenAI API and provides additional functionality
 # it's a great library for working with other LLM models and has lots of out of the box
@@ -14,21 +14,22 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_text_splitters import TokenTextSplitter
+from urllib.parse import urljoin
+import os
 
-# This is a website with pdfs of Congressional legislation that will be reviewed for the current week
-# Or you can use a different website with pdfs of text that you want to summarize, like Supreme Court oral arguments:
-# https://www.supremecourt.gov/oral_arguments/argument_transcript/2024
-START_URL = "https://docs.house.gov/floor/"
+# This is a website with pdfs of Supreme Court oral arguments
+START_URL = "https://www.supremecourt.gov/oral_arguments/argument_transcript/2024"
 
 MODEL = "gpt-4o" # using gpt-4o-mini would be faster, but less accurate, especially for this refinement scenario
 
 TOKEN_MAX = 60000 # Open AI context window is 128000 tokens, set to half to leave room for additional context
 
 # This took me several iterations until I found a prompt that gave me the desired results
-SYSTEM_PROMPT = """ You are a journalist that reads through Congressional legislation being considered for the week
-and publishes a news article informing the public. This conversation
-is an iterative refinement of the news article where additional information and legislation is continually added.
-Respond in markdown syntax and stylize the text. Be as detailed as possible on each point of legislation being reviewed.
+SYSTEM_PROMPT = """ You are a journalist that reads through Supreme Court oral arguments. This conversation
+is an iterative refinement of the news article where additional information and oral arguments are continually added.
+Respond in markdown syntax and stylize the text. Be as detailed as possible on each case being reviewed and 
+make judgements on how the court might decide based on the questions, responses, and behavior of the justices 
+toward each side. Ignore the appendix and index pages at the end of each of the argument transcripts.
 """
 
 # Here I'm using markdown to structure the article draft and additional information to review.
@@ -38,15 +39,11 @@ Respond in markdown syntax and stylize the text. Be as detailed as possible on e
 REDUCE_PROMPT = reduce_template = """
 ## Article Draft
 
-```markdown
 {refinedSummary}
-```
 
-## Additional information and legislation to review and add to the article
+## Additional information and/or cases to review and add to the article
 
-```
 {context}
-```
 
 """
 
@@ -67,8 +64,25 @@ console = Console()
 def get_pdf_links(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
-    pdf_links = [a['href'] for a in soup.find_all('a', href=True) if a['href'].endswith('.pdf')]
-    return pdf_links
+
+    # handle relative links, e.g. ../../pdf/2024/202
+    pdf_links = [urljoin(url, a['href']) for a in soup.find_all('a', href=True) if a['href'].endswith('.pdf')]
+
+    # filter pdf links where the file name starts with 23- or 24-
+    # to avoid non oral argument pdfs
+    filtered_pdf_links = [link for link in pdf_links if os.path.basename(link).startswith(('23-', '24-'))]
+    return filtered_pdf_links
+
+def load_and_process_pdf(link):
+    loader = PyPDFLoader(link)
+    docs = loader.load()
+    text = "\n".join([doc.page_content for doc in docs])
+
+    # Split the text at "The case is submitted" and take the part before it
+    # These transcripts have a lot of extra information at the end that we don't need
+    # and also create a lot of extra tokens
+    split_text = text.split("The case is submitted")[0]
+    return split_text
 
 def main():
 
@@ -80,18 +94,17 @@ def main():
     for link in pdf_links:
         console.print(f"Loading document from {link}")
         loader = PyPDFLoader(link)
-        docs = loader.load()
+
+        processed_text = load_and_process_pdf(link)
 
         # use our token splitter to make sure we don't exceed the token limit
         # if the pdf is too large this will automatically split it into chunks
-        docsSplit = tokenSplitter.split_documents(docs)
-
-        console.print(f"Loaded {len(docs)} documents")
+        strSplit = tokenSplitter.split_text(processed_text)
 
         console.print("Generating and refining summary for pdf ...")
         # Summarize and refine
-        for doc in docsSplit:
-            context = doc.page_content
+        for str in strSplit:
+            context = str
             response = reduce_chain.invoke({"context": context, "refinedSummary": refinedSummary})
             refinedSummary = response
             console.print(Markdown("# Refined summary so far:"))

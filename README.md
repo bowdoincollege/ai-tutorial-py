@@ -71,7 +71,9 @@ text that exceeds the context window of the LLM (128,000 tokens for OpenAI model
 This is often referred to as RAG: Retrieval-Augmented Generation, supplementing data
 from an external source from the LLM training data.
 
-[lesson-1-5.py](lesson-1-5.py)
+[lesson-1-5.py (US House docs)](lesson-1-5.py)
+
+[lesson-1-5b.py (Supreme Court docs)](lesson-1-5b.py)
 
 ## Lesson 1.6: Vision
 
